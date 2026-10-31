@@ -1,0 +1,159 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #101010;
+  color: white;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  padding: 35px 20px;
+  background: #181818;
+}
+
+.header h1 {
+  font-size: 48px;
+  margin: 0;
+  color: white;
+}
+
+.header h1 span {
+  color: #1ed760;
+}
+
+.header p {
+  color: #b3b3b3;
+}
+
+.main-content {
+  max-width: 1100px;
+  margin: 35px auto;
+  padding: 0 20px;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 35px;
+}
+
+.search-bar input {
+  width: 70%;
+  max-width: 550px;
+  padding: 15px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+}
+
+button {
+  background: #1ed760;
+  color: #101010;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #1fef70;
+}
+
+.music-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.music-panel {
+  background: #181818;
+  border-radius: 14px;
+  padding: 25px;
+}
+
+.music-panel h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+  padding: 15px 0;
+  gap: 12px;
+}
+
+.track h3 {
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+
+.track p {
+  color: #b3b3b3;
+  font-size: 13px;
+  margin: 0;
+}
+
+.track button {
+  padding: 8px 14px;
+  font-size: 18px;
+}
+
+.playlist-name {
+  width: 100%;
+  padding: 12px;
+  background: #282828;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: white;
+  font-size: 17px;
+  margin-bottom: 15px;
+}
+
+.save-button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 15px;
+  font-size: 15px;
+}
+
+.empty-message {
+  color: #aaa;
+}
+
+footer {
+  text-align: center;
+  color: #888;
+  padding: 25px;
+}
+
+@media (max-width: 700px) {
+  .music-container {
+    grid-template-columns: 1fr;
+  }
+
+  .search-bar {
+    flex-direction: column;
+  }
+
+  .search-bar input {
+    width: 100%;
+  }
+
+  .header h1 {
+    font-size: 38px;
+  }
+}

@@ -1,9 +1,7 @@
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import oxlint from 'vite-plugin-oxlint'
+﻿import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   base: '/jammming/',
-  plugins: [react(), oxlint()],
-})
+  plugins: [react()],
+});

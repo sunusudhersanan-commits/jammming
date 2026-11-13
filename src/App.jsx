@@ -1,87 +1,60 @@
+
 import { useState } from 'react';
+import SearchBar from './SearchBar';
+import SearchResults from './SearchResults';
+import Playlist from './Playlist';
 import './App.css';
 
-import SearchBar from './components/SearchBar';
-import SearchResults from './components/SearchResults';
-import Playlist from './components/Playlist';
-
 const sampleTracks = [
-  {
-    id: 1,
-    name: 'Perfect',
-    artist: 'Ed Sheeran',
-    album: '÷ (Divide)',
-    uri: 'spotify:track:1'
-  },
-  {
-    id: 2,
-    name: 'Shape of You',
-    artist: 'Ed Sheeran',
-    album: '÷ (Divide)',
-    uri: 'spotify:track:2'
-  },
-  {
-    id: 3,
-    name: 'Blinding Lights',
-    artist: 'The Weeknd',
-    album: 'After Hours',
-    uri: 'spotify:track:3'
-  },
-  {
-    id: 4,
-    name: 'Until I Found You',
-    artist: 'Stephen Sanchez',
-    album: 'Easy On My Eyes',
-    uri: 'spotify:track:4'
-  }
+  { id: '1', name: 'Shape of You', artist: 'Ed Sheeran', album: 'Divide', uri: 'spotify:track:7qiZfU4dY1lWllzX7mPBI3' },
+  { id: '2', name: 'Perfect', artist: 'Ed Sheeran', album: 'Divide', uri: 'spotify:track:0tgVpDi06FyKpA1z0VMD4v' },
+  { id: '3', name: 'Blinding Lights', artist: 'The Weeknd', album: 'After Hours', uri: 'spotify:track:0VjIjW4GlUZAMYd2vXMi3b' },
+  { id: '4', name: 'Levitating', artist: 'Dua Lipa', album: 'Future Nostalgia', uri: 'spotify:track:463CkQjx2Zk1yXoBuierM9' },
+  { id: '5', name: 'Perfect', artist: 'Ed Sheeran', album: 'Divide', uri: 'spotify:track:3U4isOIWM3VvDubwSI3y7a' }
 ];
 
+function loadSavedPlaylist() {
+  try {
+    return JSON.parse(localStorage.getItem('jammming_playlist')) || {};
+  } catch {
+    return {};
+  }
+}
+
 function App() {
-  const [savedPlaylist] = useState(() => {
-    try {
-      const saved = localStorage.getItem('jammming-playlist');
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  });
-
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState(sampleTracks);
-
-  const [playlistName, setPlaylistName] = useState(
-    savedPlaylist?.name || 'My Playlist'
-  );
-
   const [playlistTracks, setPlaylistTracks] = useState(
-    savedPlaylist?.tracks || []
+    () => loadSavedPlaylist().tracks || []
   );
 
-  function handleSearch() {
-    const query = searchTerm.toLowerCase().trim();
+  const [savedPlaylistName, setSavedPlaylistName] = useState(
+    () => loadSavedPlaylist().name || ''
+  );
 
-    setSearchResults(
-      sampleTracks.filter(track =>
-        `${track.name} ${track.artist} ${track.album}`
-          .toLowerCase()
-          .includes(query)
-      )
+  const [searchResults, setSearchResults] = useState([]);
+
+  function searchTracks(term) {
+    const results = sampleTracks.filter((track) =>
+      `${track.name} ${track.artist} ${track.album}`
+        .toLowerCase()
+        .includes(term.toLowerCase())
     );
+
+    setSearchResults(results);
   }
 
   function addTrack(track) {
-    setPlaylistTracks(previous => {
-      if (previous.some(item => item.id === track.id)) {
-        return previous;
+    setPlaylistTracks((previousTracks) => {
+      if (previousTracks.some((item) => item.id === track.id)) {
+        return previousTracks;
       }
 
-      return [...previous, track];
+      return [...previousTracks, track];
     });
   }
 
   function removeTrack(track) {
-    setPlaylistTracks(previous =>
-      previous.filter(item => item.id !== track.id)
+    setPlaylistTracks((previousTracks) =>
+      previousTracks.filter((item) => item.id !== track.id)
     );
   }
 
@@ -91,54 +64,51 @@ function App() {
       return;
     }
 
-    const playlist = {
-      name: playlistName,
+    const name = prompt('Enter your playlist name:', savedPlaylistName || 'My Playlist');
+
+    if (!name || !name.trim()) {
+      return;
+    }
+
+    const savedPlaylist = {
+      name: name.trim(),
       tracks: playlistTracks
     };
 
     localStorage.setItem(
-      'jammming-playlist',
-      JSON.stringify(playlist)
+      'jammming_playlist',
+      JSON.stringify(savedPlaylist)
     );
 
-    alert('Your playlist has been saved successfully!');
+    setSavedPlaylistName(name.trim());
+
+    alert(`"${name.trim()}" saved successfully!`);
   }
 
   return (
-    <div className="app">
-      <header className="header">
-        <h1>
-          Jammming<span>.</span>
-        </h1>
-        <p>Your music. Your playlist. Your vibe.</p>
-      </header>
+    <div>
+      <h1>Jammming.</h1>
+      <p>Your music. Your playlist. Your vibe.</p>
+      <p>Free Demo Mode — No Spotify Premium required.</p>
 
-      <main className="main-content">
-        <SearchBar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          onSearch={handleSearch}
-        />
+      <SearchBar onSearch={searchTracks} />
 
-        <div className="music-container">
-          <SearchResults
-            tracks={searchResults}
-            onAddTrack={addTrack}
-          />
+      <SearchResults
+        tracks={searchResults}
+        onAdd={addTrack}
+      />
 
-          <Playlist
-            playlistName={playlistName}
-            setPlaylistName={setPlaylistName}
-            playlistTracks={playlistTracks}
-            onRemoveTrack={removeTrack}
-            onSavePlaylist={savePlaylist}
-          />
-        </div>
-      </main>
+      <Playlist
+        tracks={playlistTracks}
+        onRemove={removeTrack}
+        onSave={savePlaylist}
+      />
 
-      <footer>
-        <p>Made with ♡ and music · Jammming</p>
-      </footer>
+      {savedPlaylistName && (
+        <p>Last saved playlist: {savedPlaylistName}</p>
+      )}
+
+      <p>Made with ♡ and music · Jammming</p>
     </div>
   );
 }

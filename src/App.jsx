@@ -45,7 +45,7 @@ function App() {
       if (results.length === 0) {
         setError('No songs found. Try another search.');
       }
-    } catch (err) {
+    } catch {
       setError('Song search failed. Please try again.');
     } finally {
       setLoading(false);

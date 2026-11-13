@@ -3,45 +3,8 @@ import { useState } from 'react';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import Playlist from './Playlist';
+import Spotify from './Spotify';
 import './App.css';
-
-const sampleTracks = [
-  {
-    id: '1',
-    name: 'Shape of You',
-    artist: 'Ed Sheeran',
-    album: 'Divide',
-    uri: 'spotify:track:7qiZfU4dY1lWllzX7mPBI3'
-  },
-  {
-    id: '2',
-    name: 'Perfect',
-    artist: 'Ed Sheeran',
-    album: 'Divide',
-    uri: 'spotify:track:0tgVpDi06FyKpA1z0VMD4v'
-  },
-  {
-    id: '3',
-    name: 'Blinding Lights',
-    artist: 'The Weeknd',
-    album: 'After Hours',
-    uri: 'spotify:track:0VjIjW4GlUZAMYd2vXMi3b'
-  },
-  {
-    id: '4',
-    name: 'Levitating',
-    artist: 'Dua Lipa',
-    album: 'Future Nostalgia',
-    uri: 'spotify:track:463CkQjx2Zk1yXoBuierM9'
-  },
-  {
-    id: '5',
-    name: 'Perfect',
-    artist: 'Ed Sheeran',
-    album: 'Divide',
-    uri: 'spotify:track:3U4isOIWM3VvDubwSI3y7a'
-  }
-];
 
 function loadSavedPlaylist() {
   try {
@@ -61,15 +24,32 @@ function App() {
   );
 
   const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  function searchTracks(term) {
-    const results = sampleTracks.filter((track) =>
-      `${track.name} ${track.artist} ${track.album}`
-        .toLowerCase()
-        .includes(term.toLowerCase())
-    );
+  async function searchTracks(term) {
+    if (!term.trim()) {
+      setSearchResults([]);
+      setError('Please enter a song or artist name.');
+      return;
+    }
 
-    setSearchResults(results);
+    setLoading(true);
+    setError('');
+    setSearchResults([]);
+
+    try {
+      const results = await Spotify.search(term);
+      setSearchResults(results);
+
+      if (results.length === 0) {
+        setError('No songs found. Try another search.');
+      }
+    } catch (err) {
+      setError('Song search failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   function addTrack(track) {
@@ -101,12 +81,10 @@ function App() {
       return;
     }
 
-    const trackURIs = playlistTracks.map((track) => track.uri);
-
     const savedPlaylist = {
       name: trimmedName,
       tracks: playlistTracks,
-      trackURIs: trackURIs
+      trackURIs: playlistTracks.map((track) => track.uri)
     };
 
     localStorage.setItem(
@@ -115,17 +93,19 @@ function App() {
     );
 
     setPlaylistTracks([]);
-
-    alert(`"${trimmedName}" saved successfully!`);
+    alert(`"${trimmedName}" saved successfully in this browser!`);
   }
 
   return (
     <div>
       <h1>Jammming.</h1>
       <p>Your music. Your playlist. Your vibe.</p>
-      <p>Free Demo Mode — No Spotify Premium required.</p>
+      <p>Free Demo Mode — Music search powered by Apple iTunes.</p>
 
       <SearchBar onSearch={searchTracks} />
+
+      {loading && <p>Searching for songs...</p>}
+      {error && <p role="alert">{error}</p>}
 
       <SearchResults
         tracks={searchResults}
@@ -141,7 +121,6 @@ function App() {
       />
 
       <p>Last saved playlist: {playlistName}</p>
-
       <p>Made with ♡ and music · Jammming</p>
     </div>
   );

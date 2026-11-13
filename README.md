@@ -1,64 +1,48 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+# Jammming 🎵
 
-Currently, two official plugins are available:
+A music search and playlist application built with React.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
-# Jammming - Playlist Creator
-
-Jammming is a React application that allows users to search
-for songs and create their own playlists.
+## Live Website
+https://sunusudhersanan-commits.github.io/jammming/
 
 ## Features
-
-- Search songs by title, artist, or album.
-- View song details.
-- Add songs to a playlist.
-- Remove songs from a playlist.
-- Rename playlists.
-- Save playlists in browser local storage.
-- Restore saved playlists after refreshing the page.
-- Responsive design for mobile and desktop.
+- Search real songs using the Apple iTunes Search API.
+- View song title, artist and album.
+- Add songs to your playlist.
+- Remove songs from your playlist.
+- Rename your playlist.
+- Prevent duplicate songs.
+- Save playlists in browser Local Storage.
+- Responsive user interface.
 
 ## Technologies Used
-
 - React
 - JavaScript
-- HTML
-- CSS
+- HTML5
+- CSS3
 - Vite
-- Browser Local Storage
+- Apple iTunes Search API
+- Git and GitHub
 
-## Getting Started
+## Installation
 
-1. Clone or download this project.
-2. Open the project folder in VS Code.
-3. Open the terminal.
-4. Install dependencies:
+1. Clone this repository:
+   git clone https://github.com/sunusudhersanan-commits/jammming.git
 
+2. Open the project folder:
+   cd jammming
+
+3. Install dependencies:
    npm install
 
-5. Start the development server:
-
+4. Start the development server:
    npm run dev
 
-6. Open the local address shown in the terminal.
-
 ## Note
-
-This version uses sample song data and browser local storage.
-Spotify API integration is not included.
+This version uses Apple iTunes for music search and browser Local Storage for playlist saving. It does not currently upload playlists to Spotify.
 
 ## Author
-
 Subashini Sudhersanan
+
+Front-End Developer

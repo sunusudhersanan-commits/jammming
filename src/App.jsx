@@ -6,11 +6,41 @@ import Playlist from './Playlist';
 import './App.css';
 
 const sampleTracks = [
-  { id: '1', name: 'Shape of You', artist: 'Ed Sheeran', album: 'Divide', uri: 'spotify:track:7qiZfU4dY1lWllzX7mPBI3' },
-  { id: '2', name: 'Perfect', artist: 'Ed Sheeran', album: 'Divide', uri: 'spotify:track:0tgVpDi06FyKpA1z0VMD4v' },
-  { id: '3', name: 'Blinding Lights', artist: 'The Weeknd', album: 'After Hours', uri: 'spotify:track:0VjIjW4GlUZAMYd2vXMi3b' },
-  { id: '4', name: 'Levitating', artist: 'Dua Lipa', album: 'Future Nostalgia', uri: 'spotify:track:463CkQjx2Zk1yXoBuierM9' },
-  { id: '5', name: 'Perfect', artist: 'Ed Sheeran', album: 'Divide', uri: 'spotify:track:3U4isOIWM3VvDubwSI3y7a' }
+  {
+    id: '1',
+    name: 'Shape of You',
+    artist: 'Ed Sheeran',
+    album: 'Divide',
+    uri: 'spotify:track:7qiZfU4dY1lWllzX7mPBI3'
+  },
+  {
+    id: '2',
+    name: 'Perfect',
+    artist: 'Ed Sheeran',
+    album: 'Divide',
+    uri: 'spotify:track:0tgVpDi06FyKpA1z0VMD4v'
+  },
+  {
+    id: '3',
+    name: 'Blinding Lights',
+    artist: 'The Weeknd',
+    album: 'After Hours',
+    uri: 'spotify:track:0VjIjW4GlUZAMYd2vXMi3b'
+  },
+  {
+    id: '4',
+    name: 'Levitating',
+    artist: 'Dua Lipa',
+    album: 'Future Nostalgia',
+    uri: 'spotify:track:463CkQjx2Zk1yXoBuierM9'
+  },
+  {
+    id: '5',
+    name: 'Perfect',
+    artist: 'Ed Sheeran',
+    album: 'Divide',
+    uri: 'spotify:track:3U4isOIWM3VvDubwSI3y7a'
+  }
 ];
 
 function loadSavedPlaylist() {
@@ -26,8 +56,8 @@ function App() {
     () => loadSavedPlaylist().tracks || []
   );
 
-  const [savedPlaylistName, setSavedPlaylistName] = useState(
-    () => loadSavedPlaylist().name || ''
+  const [playlistName, setPlaylistName] = useState(
+    () => loadSavedPlaylist().name || 'My Playlist'
   );
 
   const [searchResults, setSearchResults] = useState([]);
@@ -64,15 +94,19 @@ function App() {
       return;
     }
 
-    const name = prompt('Enter your playlist name:', savedPlaylistName || 'My Playlist');
+    const trimmedName = playlistName.trim();
 
-    if (!name || !name.trim()) {
+    if (!trimmedName) {
+      alert('Please enter a playlist name!');
       return;
     }
 
+    const trackURIs = playlistTracks.map((track) => track.uri);
+
     const savedPlaylist = {
-      name: name.trim(),
-      tracks: playlistTracks
+      name: trimmedName,
+      tracks: playlistTracks,
+      trackURIs: trackURIs
     };
 
     localStorage.setItem(
@@ -80,9 +114,9 @@ function App() {
       JSON.stringify(savedPlaylist)
     );
 
-    setSavedPlaylistName(name.trim());
+    setPlaylistTracks([]);
 
-    alert(`"${name.trim()}" saved successfully!`);
+    alert(`"${trimmedName}" saved successfully!`);
   }
 
   return (
@@ -100,13 +134,13 @@ function App() {
 
       <Playlist
         tracks={playlistTracks}
+        playlistName={playlistName}
+        onNameChange={setPlaylistName}
         onRemove={removeTrack}
         onSave={savePlaylist}
       />
 
-      {savedPlaylistName && (
-        <p>Last saved playlist: {savedPlaylistName}</p>
-      )}
+      <p>Last saved playlist: {playlistName}</p>
 
       <p>Made with ♡ and music · Jammming</p>
     </div>

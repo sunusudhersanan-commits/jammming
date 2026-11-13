@@ -1,33 +1,16 @@
 
-import TrackList from './TrackList';
-
-function Playlist({
-  playlistName,
-  setPlaylistName,
-  playlistTracks,
-  onRemoveTrack,
-  onSavePlaylist
-}) {
+function Playlist() {
   return (
-    <section className="music-panel">
-      <h2>Your Playlist</h2>
+    <div>
+      <h2>My Playlist</h2>
 
       <input
-        className="playlist-name"
-        value={playlistName}
-        onChange={(event) => setPlaylistName(event.target.value)}
+        type="text"
+        placeholder="Enter playlist name..."
       />
 
-      <TrackList
-        tracks={playlistTracks}
-        buttonText="−"
-        onAction={onRemoveTrack}
-      />
-
-      <button className="save-button" onClick={onSavePlaylist}>
-        Save Playlist
-      </button>
-    </section>
+      <button>Save to Spotify</button>
+    </div>
   );
 }
 

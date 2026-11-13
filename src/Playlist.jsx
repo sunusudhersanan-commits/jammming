@@ -6,6 +6,13 @@ function Playlist(props) {
     <div className="playlist">
       <h2>My Playlist</h2>
 
+      <input
+        type="text"
+        value={props.playlistName}
+        onChange={(event) => props.onNameChange(event.target.value)}
+        placeholder="Enter playlist name"
+      />
+
       {props.tracks.length === 0 ? (
         <p>Your playlist is empty. Add some songs!</p>
       ) : (
@@ -23,7 +30,7 @@ function Playlist(props) {
         onClick={props.onSave}
         disabled={props.tracks.length === 0}
       >
-        Save Playlist
+        Save To Spotify
       </button>
     </div>
   );

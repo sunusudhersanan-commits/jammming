@@ -1,21 +1,14 @@
 
-function SearchBar({ searchTerm, setSearchTerm, onSearch }) {
+function SearchBar() {
   return (
-    <form
-      className="search-bar"
-      onSubmit={(event) => {
-        event.preventDefault();
-        onSearch();
-      }}
-    >
+    <div>
       <input
         type="text"
-        placeholder="Search for songs or artists..."
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
+        placeholder="Enter a song title..."
       />
-      <button type="submit">Search</button>
-    </form>
+
+      <button>Search</button>
+    </div>
   );
 }
 

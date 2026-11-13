@@ -1,23 +1,15 @@
 
 import Track from './Track';
 
-function TrackList({ tracks, buttonText, onAction }) {
+function Tracklist() {
   return (
-    <div className="track-list">
-      {tracks.length === 0 ? (
-        <p className="empty-message">No songs found.</p>
-      ) : (
-        tracks.map((track) => (
-          <Track
-            key={track.id}
-            track={track}
-            buttonText={buttonText}
-            onAction={onAction}
-          />
-        ))
-      )}
+    <div>
+      <h2>Search Results</h2>
+
+      <Track />
+      <Track />
     </div>
   );
 }
 
-export default TrackList;
+export default Tracklist;

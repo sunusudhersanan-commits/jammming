@@ -1,14 +1,12 @@
 
-function Track({ track, buttonText, onAction }) {
+function Track() {
   return (
-    <div className="track">
-      <div>
-        <h3>{track.name}</h3>
-        <p>{track.artist} · {track.album}</p>
-      </div>
-      <button onClick={() => onAction(track)}>
-        {buttonText}
-      </button>
+    <div>
+      <h3>Shape of You</h3>
+      <p>Artist: Ed Sheeran</p>
+      <p>Album: ÷ (Divide)</p>
+
+      <button>Add to Playlist</button>
     </div>
   );
 }

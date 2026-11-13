@@ -1,16 +1,11 @@
 
-import TrackList from './TrackList';
+import Tracklist from './Tracklist';
 
-function SearchResults({ tracks, onAddTrack }) {
+function SearchResults() {
   return (
-    <section className="music-panel">
-      <h2>Search Results</h2>
-      <TrackList
-        tracks={tracks}
-        buttonText="+"
-        onAction={onAddTrack}
-      />
-    </section>
+    <div>
+      <Tracklist />
+    </div>
   );
 }
 
